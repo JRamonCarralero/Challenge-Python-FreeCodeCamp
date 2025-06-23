@@ -1,4 +1,23 @@
 def arithmetic_arranger(problems, show_answers=False):
+    """
+    This function takes a list of strings representing math problems and
+    returns a formatted string presenting the problems and their solutions
+    in a neatly arranged table. The function supports addition and subtraction
+    problems with up to four digits. The function will return an error message
+    if the input list contains more than five problems or if the input contains
+    unsupported operators or non-numeric characters.
+
+    Parameters:
+        problems (list): A list of strings representing math problems.
+        show_answers (bool): An optional parameter that indicates whether the
+            function should return the solutions to the problems. The default
+            value is False.
+
+    Returns:
+        str: A formatted string presenting the problems and their solutions in
+            a neatly arranged table.
+    """
+    
     first_values = ''
     second_values = ''
     line_values = ''

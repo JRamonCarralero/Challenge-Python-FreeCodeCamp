@@ -1,25 +1,67 @@
 class Category:
     
     def __init__(self, name):
+        """
+        Initializes a new Category object.
+
+        Parameters:
+            name (str): The name of the Category as a string.
+        """
         self.ledger = []
         self.name = name
     
     def deposit(self, amount, description = ''):
+        """
+        Adds a deposit to the ledger.
+
+        Parameters:
+            amount (int): The amount to add as an integer.
+            description (str, optional): A description of the deposit as a string.
+                Defaults to an empty string.
+        """
         self.ledger.append({'amount': amount, 'description': description})
 
     def withdraw(self, amount, description = ''):
+        """
+        Withdraws a given amount from the budget category when the budget has enough funds.
+
+        Parameters:
+            amount (int): The amount to withdraw as an integer.
+            description (str, optional): A description of the withdrawal as a string.
+                Defaults to an empty string.
+
+        Returns:
+            bool: A boolean indicating whether the withdrawal was successful.
+        """
         if self.check_funds(amount):
             self.ledger.append({'amount': -amount, 'description': description})
             return True
         return False
 
     def get_balance(self):
+        """
+        Calculates and returns the current balance of the budget category.
+
+        Returns:
+            float: The current balance as a floating-point number.
+        """
         balance = 0
         for item in self.ledger:
             balance += item['amount']
         return balance
 
     def transfer(self, amount, budget):
+        """
+        Transfers a given amount from the current budget category to the specified budget category
+        if the current budget has enough funds.
+
+        Parameters:
+            amount (int): The amount to transfer as an integer.
+            budget (Category): The budget category to transfer funds to.
+
+        Returns:
+            bool: A boolean indicating whether the transfer was successful.
+        """
         if self.check_funds(amount):
             self.withdraw(amount, f'Transfer to {budget.name}')
             budget.deposit(amount, f'Transfer from {self.name}')
@@ -27,11 +69,31 @@ class Category:
         return False
 
     def check_funds(self, amount):
+        """
+        Checks whether the budget category has enough funds for a given amount.
+
+        Parameters:
+            amount (int): The amount to check against the budget category's balance.
+
+        Returns:
+            bool: A boolean indicating whether the budget category has enough funds.
+        """
         if amount > self.get_balance():
             return False
         return True
 
     def __str__(self):
+        """
+        Returns a string representation of the budget category.
+
+        The returned string includes the category name, followed by a table of
+        all transactions in the ledger, with the description left-aligned and
+        the amount right-aligned. The total balance is displayed after the
+        table.
+
+        Returns:
+            str: A string representation of the budget category.
+        """
         output = [] 
         output.append(f'{self.name:*^30}')
         for item in self.ledger:
@@ -52,6 +114,25 @@ class Category:
 
 
 def create_spend_chart(categories):
+    """
+    Creates a bar chart representing the percentage of total spending by category.
+
+    The function takes a list of Category objects as input and returns a string
+    containing the bar chart.
+
+    The bar chart will have a title, a horizontal line with tick marks, and
+    vertical bars representing the percentage spent in each category. The
+    vertical bars will be labeled with the category name and the percentage
+    of total spending will be displayed above each bar.
+
+    The returned string will be suitable for printing to the console.
+
+    Parameters:
+        categories (list): A list of Category objects.
+
+    Returns:
+        str: A string containing the bar chart.
+    """
     output = ['Percentage spent by category']
     total_spent = 0
     spent_by_category = {}
